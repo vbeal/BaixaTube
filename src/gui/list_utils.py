@@ -9,7 +9,8 @@ def on_enter(event, path):
 def on_leave(event):
     event.widget.config(font=('Helvetica', 10))
 
-def update_downloaded_files_list(save_path, downloaded_files_frame):
+def update_downloaded_files_list(save_path, downloaded_files_frame, root):
+    print(f"Atualizando lista de arquivos em {save_path}")  # Log para verificar se a função é chamada
     for widget in downloaded_files_frame.winfo_children():
         widget.destroy()
     files = os.listdir(save_path)
@@ -22,3 +23,7 @@ def update_downloaded_files_list(save_path, downloaded_files_frame):
         label.bind("<Leave>", lambda e: on_leave(e))
         label.bind("<Button-1>", lambda e, path=file_path: open_file(path))
         label.pack(fill='x')
+        print(f"Adicionado arquivo à lista: {file}")  # Log para cada arquivo adicionado
+    downloaded_files_frame.update_idletasks()  # Atualiza a interface gráfica
+    root.update()  # Força a atualização da interface gráfica
+    print("Lista de arquivos baixados atualizada na interface gráfica.")  # Log para confirmação
